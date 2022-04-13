@@ -14,6 +14,8 @@ app.use(bodyParser.json());
 
 app.get('/user', authenticateMidd, UserController.getUsers);
 
+app.get('/user/:id', authenticateMidd, UserController.getUserById);
+
 app.post('/user', validationUser, UserController.createUser);
 
 app.post('/login', validationLogin, LoginController.login);
