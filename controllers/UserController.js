@@ -5,8 +5,8 @@ const createUser = async (req, res, next) => {
     const newUser = req.body;
     const result = await UserService.createUser(newUser);
     res.status(201).json(result);
-  } catch (e) {
-    next(e);
+  } catch (err) {
+    next(err);
   }
 };
 
