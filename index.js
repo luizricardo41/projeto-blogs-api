@@ -2,13 +2,18 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const UserController = require('./controllers/UserController');
+const LoginController = require('./controllers/LoginController');
+
 const middlewareError = require('./middleware/middlewareError');
 const validationUser = require('./middleware/validationUser');
+const validationLogin = require('./middleware/validateLogin');
 
 const app = express();
 app.use(bodyParser.json());
 
 app.post('/user', validationUser, UserController.createUser);
+
+app.post('/login', validationLogin, LoginController.login);
 
 app.use(middlewareError);
 
