@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const conflict = require('../error/conflict');
+const notFound = require('../error/notFound');
 const { User } = require('../models');
 
 const secret = process.env.SECRET || 'mysecretkey';
@@ -27,7 +28,16 @@ const getUsers = async () => {
   return users;
 };
 
+const getUserById = async (id) => {
+  const user = await User.findByPk(id);
+
+  if (!user) throw notFound('User does not exist');
+
+  return user;
+};
+
 module.exports = {
   createUser,
   getUsers,
+  getUserById,
 };
