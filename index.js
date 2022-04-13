@@ -21,6 +21,8 @@ app.get('/user/:id', authenticateMidd, UserController.getUserById);
 
 app.post('/user', validationUser, UserController.createUser);
 
+app.get('/categories', authenticateMidd, CategoryController.getCategories);
+
 app.post('/categories', authenticateMidd, CategoryController.createCategory);
 
 app.use(middlewareError);
