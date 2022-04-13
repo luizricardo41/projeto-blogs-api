@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 
 const UserController = require('./controllers/UserController');
 const LoginController = require('./controllers/LoginController');
+const CategoryController = require('./controllers/CategoryController');
 
 const middlewareError = require('./middleware/middlewareError');
 const validationUser = require('./middleware/validationUser');
@@ -12,13 +13,15 @@ const authenticateMidd = require('./middleware/authenticateMidd');
 const app = express();
 app.use(bodyParser.json());
 
+app.post('/login', validationLogin, LoginController.login);
+
 app.get('/user', authenticateMidd, UserController.getUsers);
 
 app.get('/user/:id', authenticateMidd, UserController.getUserById);
 
 app.post('/user', validationUser, UserController.createUser);
 
-app.post('/login', validationLogin, LoginController.login);
+app.post('/categories', authenticateMidd, CategoryController.createCategory);
 
 app.use(middlewareError);
 
