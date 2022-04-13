@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const verifyParams = require('../error/verifyParams');
+const badRequest = require('../error/badRequest');
 
 const userSchema = Joi.object({
   displayName: Joi.string().min(8),
@@ -10,7 +10,7 @@ const userSchema = Joi.object({
 
 const validationUser = (req, res, next) => {
   const { error } = userSchema.validate(req.body);
-  if (error) throw verifyParams(error.message);
+  if (error) throw badRequest(error.message);
   next();
 };
 
