@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const conflict = require('../error/conflict');
 const { User } = require('../models');
 
-const secret = process.env.SECRET;
+const secret = process.env.SECRET || 'mysecretkey';
 
 const createUser = async (user) => {
   const { email } = user;
