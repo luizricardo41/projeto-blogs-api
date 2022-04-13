@@ -7,9 +7,12 @@ const LoginController = require('./controllers/LoginController');
 const middlewareError = require('./middleware/middlewareError');
 const validationUser = require('./middleware/validationUser');
 const validationLogin = require('./middleware/validateLogin');
+const authenticateMidd = require('./middleware/authenticateMidd');
 
 const app = express();
 app.use(bodyParser.json());
+
+app.get('/user', authenticateMidd, UserController.getUsers);
 
 app.post('/user', validationUser, UserController.createUser);
 
