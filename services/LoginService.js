@@ -10,9 +10,9 @@ const secret = process.env.SECRET || 'mysecretkey';
 const login = async (user) => {
   const { email } = user;
   const searchUser = await User.findOne({ where: { email } });
-  const { dataValues: { id } } = searchUser;
   if (!searchUser) throw badRequest('Invalid fields');
-
+  
+  const { dataValues: { id } } = searchUser;
   const jwtConfig = {
     expiresIn: '15m',
     algorithm: 'HS256',
