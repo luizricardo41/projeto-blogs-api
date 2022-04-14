@@ -29,6 +29,8 @@ app.post('/categories', authenticateMidd, CategoryController.createCategory);
 
 app.post('/post', authenticateMidd, validationPost, PostController.createPost);
 
+app.get('/post', authenticateMidd, PostController.getPosts);
+
 app.use(middlewareError);
 
 app.listen(3000, () => console.log('ouvindo porta 3000!'));
