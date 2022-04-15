@@ -15,12 +15,13 @@ const createPost = async (post, authorization) => {
   }));
   
   const user = jwt.verify(authorization, secret);
-  const newPost = {
-    userId: user.data,
-    title,
-    content,
-  };
+  const newPost = { userId: user.data, title, content };
+  
   const addNewPost = await BlogPost.create(newPost);
+  const categories = await Category.findAll(
+    { where: { id: categoryIds } },
+  );
+  await addNewPost.addCategories(categories);
   return addNewPost;
 };
 
