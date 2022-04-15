@@ -11,14 +11,14 @@ const createUser = async (user) => {
 
   if (getUser) throw conflict('User already registered');
   
-  await User.create(user);
-  
+  const { id } = await User.create(user);
+
   const jwtConfig = {
     expiresIn: '20m',
     algorithm: 'HS256',
   };
 
-  const token = jwt.sign({ data: email }, secret, jwtConfig);
+  const token = jwt.sign({ data: id }, secret, jwtConfig);
   return { token };
 };
 
