@@ -69,9 +69,20 @@ const editPost = async ({ id, title, content }, authorization) => {
   return result;
 };
 
+const deletePost = async (id, authorization) => {
+  const post = await BlogPost.findByPk(id);
+  if (!post) throw notFound('Post does not exist');
+  
+  const user = jwt.verify(authorization, secret);
+  if (user.data !== Number(id)) throw unauthorized('Unauthorized user');
+  
+  await BlogPost.destroy({ where: { id } });
+};
+
 module.exports = {
   createPost,
   getPosts,
   getPostById,
   editPost,
+  deletePost,
 };
