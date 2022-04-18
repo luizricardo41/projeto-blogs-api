@@ -24,6 +24,8 @@ app.get('/user/:id', authenticateMidd, UserController.getUserById);
 
 app.post('/user', validationUser, UserController.createUser);
 
+app.delete('/user/me', authenticateMidd, UserController.deleteUser);
+
 app.get('/categories', authenticateMidd, CategoryController.getCategories);
 
 app.post('/categories', authenticateMidd, CategoryController.createCategory);
