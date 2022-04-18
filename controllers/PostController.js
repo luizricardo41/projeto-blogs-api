@@ -30,8 +30,21 @@ const getPostById = async (req, res, next) => {
   }
 };
 
+const editPost = async (req, res, next) => {
+  try {
+    const { authorization } = req.headers;
+    const { id } = req.params;
+    const { title, content } = req.body;
+    const result = await PostService.editPost({ id, title, content }, authorization);
+    return res.status(200).json(result);
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   createPost,
   getPosts,
   getPostById,
+  editPost,
 };
