@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const badRequest = require('../error/badRequest');
 const notFound = require('../error/notFound');
+const unauthorized = require('../error/unauthorized');
 
 require('dotenv').config();
 
@@ -48,8 +49,23 @@ const getPostById = async (id) => {
         through: { attributes: [] },
       }],
   });
-  console.log(result);
+
   if (!result) throw notFound('Post does not exist');
+  return result;
+};
+
+const editPost = async ({ id, title, content }, authorization) => {
+  const user = jwt.verify(authorization, secret);
+  if (user.data !== Number(id)) throw unauthorized('Unauthorized user');
+  await BlogPost.update({ title, content }, { where: { id } });
+
+  const result = await BlogPost.findByPk(id, {
+    include: [{
+        model: Category,
+        as: 'categories',
+        through: { attributes: [] },
+      }],
+  });
   return result;
 };
 
@@ -57,4 +73,5 @@ module.exports = {
   createPost,
   getPosts,
   getPostById,
+  editPost,
 };
