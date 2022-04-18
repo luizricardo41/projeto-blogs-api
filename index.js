@@ -36,6 +36,8 @@ app.get('/post/:id', authenticateMidd, PostController.getPostById);
 
 app.put('/post/:id', authenticateMidd, validateEditPost, PostController.editPost);
 
+app.delete('/post/:id', authenticateMidd, PostController.deletePost);
+
 app.use(middlewareError);
 
 app.listen(3000, () => console.log('ouvindo porta 3000!'));
