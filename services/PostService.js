@@ -1,5 +1,7 @@
 const jwt = require('jsonwebtoken');
 const badRequest = require('../error/badRequest');
+const notFound = require('../error/notFound');
+
 require('dotenv').config();
 
 const { BlogPost, Category, User } = require('../models');
@@ -37,7 +39,22 @@ const getPosts = async () => {
   return result;
 };
 
+const getPostById = async (id) => {
+  const result = await BlogPost.findByPk(id, {
+    include: [{ model: User, as: 'user' },
+      {
+        model: Category,
+        as: 'categories',
+        through: { attributes: [] },
+      }],
+  });
+  console.log(result);
+  if (!result) throw notFound('Post does not exist');
+  return result;
+};
+
 module.exports = {
   createPost,
   getPosts,
+  getPostById,
 };
