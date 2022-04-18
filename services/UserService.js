@@ -36,8 +36,17 @@ const getUserById = async (id) => {
   return user;
 };
 
+const deleteUser = async (authorization) => {
+  const user = jwt.verify(authorization, secret);
+  const userDelete = await User.findByPk(user.data);
+  
+  if (!userDelete) throw notFound('User not found');
+  await User.destroy({ where: { id: user.data } });
+};
+
 module.exports = {
   createUser,
   getUsers,
   getUserById,
+  deleteUser,
 };
