@@ -11,6 +11,7 @@ const validationUser = require('./middleware/validationUser');
 const validationLogin = require('./middleware/validateLogin');
 const authenticateMidd = require('./middleware/authenticateMidd');
 const validationPost = require('./middleware/validationPost');
+const validateEditPost = require('./middleware/validateEditPost');
 
 const app = express();
 app.use(bodyParser.json());
@@ -32,6 +33,8 @@ app.post('/post', authenticateMidd, validationPost, PostController.createPost);
 app.get('/post', authenticateMidd, PostController.getPosts);
 
 app.get('/post/:id', authenticateMidd, PostController.getPostById);
+
+app.put('/post/:id', authenticateMidd, validateEditPost, PostController.editPost);
 
 app.use(middlewareError);
 
