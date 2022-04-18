@@ -31,6 +31,8 @@ app.post('/post', authenticateMidd, validationPost, PostController.createPost);
 
 app.get('/post', authenticateMidd, PostController.getPosts);
 
+app.get('/post/:id', authenticateMidd, PostController.getPostById);
+
 app.use(middlewareError);
 
 app.listen(3000, () => console.log('ouvindo porta 3000!'));
