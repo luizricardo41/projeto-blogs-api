@@ -3,7 +3,7 @@ require('dotenv').config();
 
 const unauthorized = require('../error/unauthorized');
 
-const secret = process.env.SECRET || 'mysecretkey';
+const secret = process.env.JWT_SECRET;
 
 const authenticateMidd = (req, _res, next) => {
   const { authorization } = req.headers;
