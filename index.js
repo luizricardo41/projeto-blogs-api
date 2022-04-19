@@ -1,46 +1,23 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const UserController = require('./controllers/UserController');
-const LoginController = require('./controllers/LoginController');
-const CategoryController = require('./controllers/CategoryController');
-const PostController = require('./controllers/PostController');
+const routerLogin = require('./routes/Login');
+const routerUser = require('./routes/User');
+const routerCategory = require('./routes/Category');
+const routerPost = require('./routes/Post');
 
 const middlewareError = require('./middleware/middlewareError');
-const validationUser = require('./middleware/validationUser');
-const validationLogin = require('./middleware/validateLogin');
-const authenticateMidd = require('./middleware/authenticateMidd');
-const validationPost = require('./middleware/validationPost');
-const validateEditPost = require('./middleware/validateEditPost');
 
 const app = express();
 app.use(bodyParser.json());
 
-app.post('/login', validationLogin, LoginController.login);
+app.use('/login', routerLogin);
 
-app.get('/user', authenticateMidd, UserController.getUsers);
+app.use('/user', routerUser);
 
-app.get('/user/:id', authenticateMidd, UserController.getUserById);
+app.use('/categories', routerCategory);
 
-app.post('/user', validationUser, UserController.createUser);
-
-app.delete('/user/me', authenticateMidd, UserController.deleteUser);
-
-app.get('/categories', authenticateMidd, CategoryController.getCategories);
-
-app.post('/categories', authenticateMidd, CategoryController.createCategory);
-
-app.post('/post', authenticateMidd, validationPost, PostController.createPost);
-
-app.get('/post', authenticateMidd, PostController.getPosts);
-
-app.get('/post/search', authenticateMidd, PostController.searchTerm);
-
-app.get('/post/:id', authenticateMidd, PostController.getPostById);
-
-app.put('/post/:id', authenticateMidd, validateEditPost, PostController.editPost);
-
-app.delete('/post/:id', authenticateMidd, PostController.deletePost);
+app.use('/post', routerPost);
 
 app.use(middlewareError);
 
