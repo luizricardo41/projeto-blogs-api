@@ -3,7 +3,7 @@ const conflict = require('../error/conflict');
 const notFound = require('../error/notFound');
 const { User } = require('../models');
 
-const secret = process.env.SECRET || 'mysecretkey';
+const secret = process.env.JWT_SECRET;
 
 const createUser = async (user) => {
   const { email } = user;
