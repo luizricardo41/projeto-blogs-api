@@ -5,7 +5,7 @@ const { User } = require('../models');
 
 require('dotenv').config();
 
-const secret = process.env.SECRET || 'mysecretkey';
+const secret = process.env.JWT_SECRET;
 
 const login = async (user) => {
   const { email } = user;
