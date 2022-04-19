@@ -34,6 +34,8 @@ app.post('/post', authenticateMidd, validationPost, PostController.createPost);
 
 app.get('/post', authenticateMidd, PostController.getPosts);
 
+app.get('/post/search', authenticateMidd, PostController.searchTerm);
+
 app.get('/post/:id', authenticateMidd, PostController.getPostById);
 
 app.put('/post/:id', authenticateMidd, validateEditPost, PostController.editPost);
