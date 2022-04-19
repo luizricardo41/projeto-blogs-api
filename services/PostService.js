@@ -57,7 +57,8 @@ const getPostById = async (id) => {
 
 const editPost = async ({ id, title, content }, authorization) => {
   const user = jwt.verify(authorization, secret);
-  if (user.data !== Number(id)) throw unauthorized('Unauthorized user');
+  const post = await getPostById(id);
+  if (user.data !== post.userId) throw unauthorized('Unauthorized user');
   await BlogPost.update({ title, content }, { where: { id } });
 
   const result = await BlogPost.findByPk(id, {
@@ -71,11 +72,11 @@ const editPost = async ({ id, title, content }, authorization) => {
 };
 
 const deletePost = async (id, authorization) => {
-  const post = await BlogPost.findByPk(id);
+  const post = await getPostById(id);
   if (!post) throw notFound('Post does not exist');
   
   const user = jwt.verify(authorization, secret);
-  if (user.data !== Number(id)) throw unauthorized('Unauthorized user');
+  if (user.data !== post.userId) throw unauthorized('Unauthorized user');
   
   await BlogPost.destroy({ where: { id } });
 };
