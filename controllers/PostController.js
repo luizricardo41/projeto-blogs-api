@@ -53,10 +53,21 @@ const deletePost = async (req, res, next) => {
   }
 };
 
+const searchTerm = async (req, res, next) => {
+  try {
+    const { q } = req.query;
+    const result = await PostService.searchTerm(q);
+    return res.status(200).json(result);
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   createPost,
   getPosts,
   getPostById,
   editPost,
   deletePost,
+  searchTerm,
 };
