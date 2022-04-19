@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const { Op } = require('sequelize');
 const badRequest = require('../error/badRequest');
 const notFound = require('../error/notFound');
 const unauthorized = require('../error/unauthorized');
@@ -7,7 +8,7 @@ require('dotenv').config();
 
 const { BlogPost, Category, User } = require('../models');
 
-const secret = process.env.SECRET || 'mysecretkey';
+const secret = process.env.JWT_SECRET;
 
 const createPost = async (post, authorization) => {
   const { title, content, categoryIds } = post;
@@ -79,10 +80,30 @@ const deletePost = async (id, authorization) => {
   await BlogPost.destroy({ where: { id } });
 };
 
+const searchTerm = async (query) => {
+  if (!query) {
+    const allPosts = await BlogPost.findAll({
+      include: [{ model: User, as: 'user' },
+        { model: Category, as: 'categories', through: { attributes: [] },    
+      }] });
+    return allPosts;
+  }
+  const post = await BlogPost.findAll(
+    {
+      where: { [Op.or]: [{ title: query }, { content: query }] },
+      include: [{ model: User, as: 'user' },
+      { model: Category, as: 'categories', through: { attributes: [] } }],
+    },
+  );
+
+  return post;
+};
+
 module.exports = {
   createPost,
   getPosts,
   getPostById,
   editPost,
   deletePost,
+  searchTerm,
 };
